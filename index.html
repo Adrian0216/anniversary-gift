@@ -4,29 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Jenniva ☺️</title>
+
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
     <style>
-        body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #fff5f5; }
-        h1 { color: #d63384; }
-        #output { font-size: 24px; font-weight: bold; margin-top: 20px; }
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 32px;
+        }
+
+        #output {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+
+        .heart {
+            font-size: 42px;
+        }
     </style>
 </head>
+
 <body>
-    <h1>Happy Anniversary, Jenniva! ❤️</h1>
-    
+    <div class="heart">❤️</div>
+
+    <h1>For Jenniva</h1>
+
     <div id="output"></div>
 
     <script type="py">
         from datetime import date
-        
+
         def greet():
             target_date = "2026-04-12"
             today = str(date.today())
-            
-            message = "You are the best partner I could ask for! ☺️"
-            
-            # Displays the message in the 'output' div
+
+            poem = """
+Like morning light that softly breaks,
+You came into my life awake.
+A quiet peace, a gentle grace,
+A love I never can replace.
+
+In every smile, in every sigh,
+You are my reason, my “good try.”
+Through storms or calm, near or far,
+You are my constant guiding star.
+
+Jenniva, my heart’s sweet song,
+With you is where I belong.
+Not just today, but all my days,
+I’ll love you in a thousand ways. ☺️❤️
+"""
+
+            special_poem = """
+Today the world feels warm and bright,
+Because our love stands pure and right.
+A journey shared, a bond so true,
+And every moment leads to you.
+
+Happy Anniversary, my love Jenniva ❤️
+You are my answered prayer.
+"""
+
+            if today == target_date:
+                message = special_poem + "\n\n" + poem
+            else:
+                message = poem
+
             display(message, target="output")
 
         greet()
