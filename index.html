@@ -2,33 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Anniversary Poem</title>
-    <!-- Load PyScript -->
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Jenniva ☺️</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 32px;
+        }
+
+        #output {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+            white-space: pre-line;
+            line-height: 1.6;
+            min-height: 200px;
+        }
+
+        .heart {
+            font-size: 42px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Special Message</h1>
-    <pre id="output"></pre> <!-- where text will appear -->
 
-    <py-script>
-from datetime import date
-import asyncio
-from pyscript import document
+    <div class="heart">❤️</div>
+    <h1>For Jenniva</h1>
 
-async def type_writer(text, delay=0.8):
-    output = document.getElementById("output")
-    output.innerText = ""  # start empty
+    <div id="output">Loading message... ☺️</div>
 
-    for line in text.strip().split("\n"):
-        output.innerText += line + "\n"
-        await asyncio.sleep(delay)
+    <script type="py">
+        from datetime import date
+        from pyscript import document
+        import asyncio
 
-async def greet():
-    target_date = date(2026, 4, 12)
-    today = date.today()
+        async def type_writer(text, delay=0.9):
+            output = document.getElementById("output")
+            output.innerText = ""
 
-    poem = """Like morning light that softly breaks,
+            lines = text.strip().split("\n")
+
+            for line in lines:
+                output.innerText += line + "\n"
+                await asyncio.sleep(delay)
+
+        async def greet():
+
+            target_date = "2026-04-12"
+            today = str(date.today())
+
+            poem = """
+Like morning light that softly breaks,
 You came into my life awake.
 A quiet peace, a gentle grace,
 A love I never can replace.
@@ -44,7 +80,8 @@ Not just today, but all my days,
 I’ll love you in a thousand ways. ☺️❤️
 """
 
-    special_poem = """Today the world feels warm and bright,
+            special_poem = """
+Today the world feels warm and bright,
 Because our love stands pure and right.
 A journey shared, a bond so true,
 And every moment leads to you.
@@ -53,10 +90,17 @@ Happy Anniversary, my love Jenniva ❤️
 You are my answered prayer.
 """
 
-    message = special_poem + "\n\n" + poem if today == target_date else poem
-    await type_writer(message, 0.9)
+            if today == target_date:
+                message = special_poem + "\n\n" + poem
+            else:
+                message = poem
 
-asyncio.ensure_future(greet())
-    </py-script>
+            await type_writer(message, 0.9)
+
+        # start async task
+        asyncio.create_task(greet())
+
+    </script>
+
 </body>
 </html>
