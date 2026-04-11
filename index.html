@@ -1,56 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Jenniva ☺️</title>
+<script type="py">
+from datetime import date
+from pyscript import document
+import asyncio
 
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+async def type_writer(text, delay=0.8):
+    output = document.getElementById("output")
+    output.innerText = ""  # start empty
 
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
-        }
+    lines = text.strip().split("\n")
 
-        h1 {
-            color: #d63384;
-            font-size: 32px;
-        }
+    for line in lines:
+        output.innerText += line + "\n"
+        await asyncio.sleep(delay)  # wait before next line
 
-        #output {
-            margin-top: 30px;
-            font-size: 20px;
-            color: #333;
-            white-space: pre-line;
-            line-height: 1.6;
-        }
+async def greet():
+    target_date = "2026-04-12"
+    today = str(date.today())
 
-        .heart {
-            font-size: 42px;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="heart">❤️</div>
-
-    <h1>For Jenniva</h1>
-
-    <div id="output"></div>
-
-    <script type="py">
-        from datetime import date
-        from pyscript import document
-
-        def greet():
-            target_date = "2026-04-12"
-            today = str(date.today())
-
-            poem = """
+    poem = """
 Like morning light that softly breaks,
 You came into my life awake.
 A quiet peace, a gentle grace,
@@ -67,7 +34,7 @@ Not just today, but all my days,
 I’ll love you in a thousand ways. ☺️❤️
 """
 
-            special_poem = """
+    special_poem = """
 Today the world feels warm and bright,
 Because our love stands pure and right.
 A journey shared, a bond so true,
@@ -77,14 +44,13 @@ Happy Anniversary, my love Jenniva ❤️
 You are my answered prayer.
 """
 
-            if today == target_date:
-                message = special_poem + "\n\n" + poem
-            else:
-                message = poem
+    if today == target_date:
+        message = special_poem + "\n\n" + poem
+    else:
+        message = poem
 
-            document.getElementById("output").innerText = message
+    await type_writer(message, 0.9)  # adjust speed here
 
-        greet()
-    </script>
-</body>
-</html>
+# Run async
+asyncio.create_task(greet())
+</script>
