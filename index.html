@@ -1,69 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Jenniva ☺️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Jenniva ☺️</title>
 
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
-        }
+<style>
+    body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+    }
 
-        h1 {
-            color: #d63384;
-            font-size: 32px;
-        }
+    h1 {
+        color: #d63384;
+        font-size: 32px;
+    }
 
-        #output {
-            margin-top: 30px;
-            font-size: 20px;
-            color: #333;
+    #output {
+        margin-top: 30px;
+        font-size: 20px;
+        color: #333;
+        line-height: 1.8;
+        min-height: 200px;
+    }
 
-            /* ✅ preserve spaces and line breaks */
-            white-space: pre-wrap;
+    .line {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.8s ease;
+    }
 
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-            min-height: 200px;
-        }
+    .show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        .heart {
-            font-size: 42px;
-        }
-    </style>
+    .heart {
+        font-size: 42px;
+    }
+</style>
 </head>
 
 <body>
 
-    <div class="heart">❤️</div>
-    <h1>For Jenniva</h1>
+<div class="heart">❤️</div>
+<h1>For Jenniva</h1>
+<div id="output"></div>
 
-    <div id="output">Loading message... ☺️</div>
+<script>
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    <script>
-        async function typeWriter(text, delay = 80) {
-            const output = document.getElementById("output");
-            output.innerText = "";
+async function showMessage(text) {
+    const output = document.getElementById("output");
+    output.innerHTML = "";
 
-            for (let char of text) {
-                output.innerText += char;
+    const lines = text.split("\n");
 
-                // skip delay for spaces and new lines
-                if (char !== " " && char !== "\n") {
-                    await new Promise(r => setTimeout(r, delay));
-                }
-            }
-        }
+    for (let line of lines) {
+        const div = document.createElement("div");
+        div.className = "line";
+        div.textContent = line;
 
-        async function greet() {
-            const targetDate = "2026-04-12";
-            const today = new Date().toISOString().split("T")[0];
+        output.appendChild(div);
 
-            const poem = `Like morning light that softly breaks,
+        // small delay before animation
+        await sleep(200);
+        div.classList.add("show");
+
+        // pause depending on line length
+        let pause = 1200 + (line.length * 30);
+        await sleep(pause);
+    }
+}
+
+async function greet() {
+    const targetDate = "2026-04-12";
+    const today = new Date().toISOString().split("T")[0];
+
+    const poem = `Like morning light that softly breaks,
 You came into my life awake.
 A quiet peace, a gentle grace,
 A love I never can replace.
@@ -80,16 +98,16 @@ I’ll love you in a thousand ways. ☺️❤️
 
 Happy anniversary again my Love,
 If I say it in one phrase,
-You complete me 😌. 
+You complete me 😌.
 I see your efforts.
 I feel your love.
 I pray that we will always have a
 Long, loving, and peaceful life together.
 
 "Curious, are you agnostic? 🤔🤣🤣🤣
-I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗. Have a wonderful and blissful day ahead my Love.`;
+I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗.`;
 
-            const specialPoem = `Today the world feels warm and bright,
+    const specialPoem = `Today the world feels warm and bright,
 Because our love stands pure and right.
 A journey shared, a bond so true,
 And every moment leads to you.
@@ -97,15 +115,15 @@ And every moment leads to you.
 Happy Anniversary, my love Jenniva ❤️
 You are my answered prayer.`;
 
-            let message = (today === targetDate)
-                ? specialPoem + "\n\n" + poem
-                : poem;
+    let message = (today === targetDate)
+        ? specialPoem + "\n\n" + poem
+        : poem;
 
-            await typeWriter(message, 80);
-        }
+    await showMessage(message);
+}
 
-        greet();
-    </script>
+greet();
+</script>
 
 </body>
 </html>
