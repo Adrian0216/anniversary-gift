@@ -67,19 +67,19 @@ async function showMessage(text) {
 
         output.appendChild(div);
 
-        // small delay before animation
         await sleep(200);
         div.classList.add("show");
 
-        // pause depending on line length
         let pause = 1200 + (line.length * 30);
         await sleep(pause);
     }
 }
 
 async function greet() {
+
+    // ✅ FIXED: Local timezone-safe date
+    const today = new Date().toLocaleDateString("en-CA");
     const targetDate = "2026-04-12";
-    const today = new Date().toISOString().split("T")[0];
 
     const poem = `Like morning light that softly breaks,
 You came into my life awake.
