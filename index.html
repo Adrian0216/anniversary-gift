@@ -22,8 +22,12 @@
             margin-top: 30px;
             font-size: 20px;
             color: #333;
-            white-space: pre-line;
-            line-height: 1.6;
+
+            /* ✅ FIXED spacing issue */
+            white-space: pre-wrap;
+
+            line-height: 1.8;
+            letter-spacing: 0.5px;
             min-height: 200px;
         }
 
@@ -41,13 +45,14 @@
     <div id="output">Loading message... ☺️</div>
 
     <script>
-        async function typeWriter(text, delay = 40) {
+        async function typeWriter(text, delay = 80) {
             const output = document.getElementById("output");
             output.innerText = "";
 
             for (let char of text) {
                 output.innerText += char;
 
+                // skip delay for spaces and new lines
                 if (char !== " " && char !== "\n") {
                     await new Promise(r => setTimeout(r, delay));
                 }
@@ -82,7 +87,7 @@ I Pray that we will always have a
 Long, Loving, and Peaceful Life together.
 
 "Curious, Are you agnostic? 🤔🤣🤣🤣
-I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗.`;
+I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗. Have wonderful and blissful day ahead my Love`;
 
             const specialPoem = `Today the world feels warm and bright,
 Because our love stands pure and right.
@@ -96,7 +101,7 @@ You are my answered prayer.`;
                 ? specialPoem + "\n\n" + poem
                 : poem;
 
-            await typeWriter(message, 40);
+            await typeWriter(message, 80);
         }
 
         greet();
