@@ -1,26 +1,64 @@
-<script type="py">
-    from datetime import date
-    from pyscript import document
-    import asyncio
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Jenniva ☺️</title>
 
-    async def type_writer(text, delay=0.05):
-        output = document.getElementById("output")
-        output.innerText = ""
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+        }
 
-        for char in text:
-            output.innerText += char
+        h1 {
+            color: #d63384;
+            font-size: 32px;
+        }
 
-            # Skip delay for spaces and newlines
-            if char not in [" ", "\n"]:
-                await asyncio.sleep(delay)
+        #output {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+            white-space: pre-line;
+            line-height: 1.6;
+            min-height: 200px;
+        }
 
-    async def greet():
+        .heart {
+            font-size: 42px;
+        }
+    </style>
+</head>
 
-        target_date = "2026-04-12"
-        today = str(date.today())
+<body>
 
-        poem = """
-Like morning light that softly breaks,
+    <div class="heart">❤️</div>
+    <h1>For Jenniva</h1>
+
+    <div id="output">Loading message... ☺️</div>
+
+    <script>
+        async function typeWriter(text, delay = 40) {
+            const output = document.getElementById("output");
+            output.innerText = "";
+
+            for (let char of text) {
+                output.innerText += char;
+
+                if (char !== " " && char !== "\n") {
+                    await new Promise(r => setTimeout(r, delay));
+                }
+            }
+        }
+
+        async function greet() {
+            const targetDate = "2026-04-12";
+            const today = new Date().toISOString().split("T")[0];
+
+            const poem = `Like morning light that softly breaks,
 You came into my life awake.
 A quiet peace, a gentle grace,
 A love I never can replace.
@@ -44,25 +82,25 @@ I Pray that we will always have a
 Long, Loving, and Peaceful Life together.
 
 "Curious, Are you agnostic? 🤔🤣🤣🤣
-I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗.
-"""
+I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰🤗.`;
 
-        special_poem = """
-Today the world feels warm and bright,
+            const specialPoem = `Today the world feels warm and bright,
 Because our love stands pure and right.
 A journey shared, a bond so true,
 And every moment leads to you.
 
 Happy Anniversary, my love Jenniva ❤️
-You are my answered prayer.
-"""
+You are my answered prayer.`;
 
-        if today == target_date:
-            message = special_poem + "\n\n" + poem
-        else:
-            message = poem
+            let message = (today === targetDate)
+                ? specialPoem + "\n\n" + poem
+                : poem;
 
-        await type_writer(message, 0.04)
+            await typeWriter(message, 40);
+        }
 
-    asyncio.create_task(greet())
-</script>
+        greet();
+    </script>
+
+</body>
+</html>
