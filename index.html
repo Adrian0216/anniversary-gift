@@ -1,77 +1,292 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌻🌹For Love Lhalang ☺️</title><style>
-    body {
-        font-family: sans-serif;
-        text-align: center;
-        padding: 60px 20px;
-        background: linear-gradient(135deg, #fff0f5, #ffe4e1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌻🌹 For My Love Lhalang ☺️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --secondary-pink: #f72585;
+            --soft-bg: #fff0f5;
+        }
 
-    h1 {
-        color: #d63384;
-        font-size: 32px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #output {
-        margin-top: 30px;
-        font-size: 20px;
-        color: #333;
-        line-height: 1.8;
-        min-height: 200px;
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1, #ffd1dc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
 
-    .line {
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.8s ease;
-    }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    .show {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        /* Floating Background Elements */
+        .floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    .heart {
-        font-size: 42px;
-    }
-</style></head><body><div class="heart">❤️</div>
-<h1>For my Love Lhalang</h1>
-<div id="output"></div><script>
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+        .floating {
+            position: absolute;
+            bottom: -50px;
+            font-size: 20px;
+            opacity: 0.6;
+            animation: floatUp 10s linear infinite;
+        }
 
-async function showMessage(text) {
-    const output = document.getElementById("output");
-    output.innerHTML = "";
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
 
-    const lines = text.split("\n");
+        /* Glassmorphism Container */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px;
+            max-width: 90%;
+            width: 600px;
+            margin: 20px;
+            z-index: 10;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            text-align: center;
+        }
 
-    for (let line of lines) {
-        const div = document.createElement("div");
-        div.className = "line";
-        div.textContent = line;
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--secondary-pink);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
 
-        output.appendChild(div);
+        #output {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            line-height: 1.6;
+            color: #4a4a4a;
+            min-height: 200px;
+            font-weight: 500;
+        }
 
-        await sleep(200);
-        div.classList.add("show");
+        .line {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 12px;
+        }
 
-        let pause = 1200 + (line.length * 30);
-        await sleep(pause);
-    }
-}
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-async function greet() {
+        /* Start Button Overlay */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 245, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
 
-    // ✅ Local timezone-safe date
-    const today = new Date().toLocaleDateString("en-CA");
-    const targetDate = "2026-04-12";
+        .start-btn {
+            background: var(--secondary-pink);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
 
-    const poem = `Like morning light that softly breaks,
+        .start-btn:hover {
+            transform: scale(1.05);
+            background: #d61c74;
+        }
+
+        .heart-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 133, 162, 0.5));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            #output { font-size: 1.3rem; }
+            .glass-container { padding: 25px; }
+            .start-btn { padding: 12px 30px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container" id="floating-container"></div>
+
+    <div id="overlay">
+        <div class="heart-icon">❤️</div>
+        <button class="start-btn" onclick="startExperience()">Open Your Heart</button>
+        <p style="margin-top: 20px; color: #b07d8e; font-size: 0.9rem; font-weight: 300;">(Click to begin your journey)</p>
+    </div>
+
+    <div class="glass-container" id="main-container">
+        <h1>For my Love Lhalang</h1>
+        <div id="output"></div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function createFloatingElement() {
+            const container = document.getElementById('floating-container');
+            const elements = ['❤️', '💖', '🌸', '🌹', '✨', '💕', '🌷'];
+            const el = document.createElement('div');
+            el.className = 'floating';
+            el.textContent = elements[Math.floor(Math.random() * elements.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 5 + 7) + 's';
+            el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+            container.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 12000);
+        }
+
+        // Start floating animation immediately
+        setInterval(createFloatingElement, 400);
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function showMessage(text) {
+            const output = document.getElementById("output");
+            output.innerHTML = "";
+
+            const lines = text.split("\n");
+
+            for (let line of lines) {
+                if (line.trim() === "") {
+                    output.appendChild(document.createElement("br"));
+                    continue;
+                }
+                const div = document.createElement("div");
+                div.className = "line";
+                div.textContent = line;
+
+                output.appendChild(div);
+
+                await sleep(200);
+                div.classList.add("show");
+
+                let pause = 1500 + (line.length * 25);
+                await sleep(pause);
+            }
+
+            // Grand Finale Celebration
+            const duration = 15 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 50 * (timeLeft / duration);
+              confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+              confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+        }
+
+        async function startExperience() {
+            const overlay = document.getElementById('overlay');
+            const container = document.getElementById('main-container');
+            const music = document.getElementById('bg-music');
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                container.style.display = 'block';
+                // Trigger reflow for animation
+                container.offsetHeight;
+                container.style.opacity = '1';
+                greet();
+            }, 1000);
+
+            try {
+                music.volume = 0.3;
+                music.play();
+            } catch (e) {
+                console.log("Music autoplay blocked");
+            }
+        }
+
+        async function greet() {
+            const today = new Date().toLocaleDateString("en-CA");
+            const targetDate = "2026-04-12";
+
+            const poem = `Like morning light that softly breaks,
 You came into my life awake.
 A quiet peace, a gentle grace,
 A love I never can replace.
@@ -107,7 +322,7 @@ loving, and peaceful life together.
 I love you so muchhhhh my beautiful and wonderful Love 😌😚🥰.
 Have a peaceful and blissful day ahead mwah2x😘😘.`;
 
-    const specialPoem = `Today the world feels warm and bright,
+            const specialPoem = `Today the world feels warm and bright,
 Because our love stands pure and right.
 A journey shared, a bond so true,
 And every moment leads to you.
@@ -115,16 +330,14 @@ And every moment leads to you.
 Happy Anniversary, my love Lhalang❤️
 You are my answered prayer🌻🌹.`;
 
-    const poemCompliment = 
-`Happy anniversary again my Love😘🌹🌻`;
+            const poemCompliment = `Happy anniversary again my Love😘🌹🌻`;
 
-    let message = (today === targetDate)
-        ? specialPoem + "\n\n" + poem + "\n\n" + poemCompliment
-        : poem;
+            let message = (today === targetDate)
+                ? specialPoem + "\n\n" + poem + "\n\n" + poemCompliment
+                : poem;
 
-    await showMessage(message);
-}
-
-greet();
-</script></body>
+            await showMessage(message);
+        }
+    </script>
+</body>
 </html>
